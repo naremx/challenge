@@ -1,111 +1,122 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-fetch';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { summaryDonations } from './helpers';
+import CardGrid from './component/CardGrid';
+import './App.css';
 
-const Card = styled.div`
-  margin: 10px;
-  border: 1px solid #ccc;
-`;
+class App extends Component {
+  state = {
+    charities: [],
+    selectedCharity: null,
+    isDonationWindowOpen: false,
+  };
 
-export default connect((state) => state)(
-  class App extends Component {
-    state = {
-      charities: [],
-      selectedAmount: 10,
-    };
+  componentDidMount() {
+    this.fetchCharities();
+    this.fetchPayments();
+  }
 
-    componentDidMount() {
-      const self = this;
-      fetch('http://localhost:3001/charities')
-        .then(function (resp) {
-          return resp.json();
-        })
-        .then(function (data) {
-          self.setState({ charities: data });
+  fetchCharities = () => {
+    fetch('http://localhost:3001/charities')
+      .then(resp => resp.json())
+      .then(data => this.setState({ charities: data }));
+  }
+
+  fetchPayments = () => {
+    fetch('http://localhost:3001/payments')
+      .then(resp => resp.json())
+      .then(data => {
+        const validDonations = data.map(item => item.amount).filter(amount => typeof amount === 'number' && !isNaN(amount));
+        this.props.dispatch({
+          type: 'UPDATE_TOTAL_DONATE',
+          amount: summaryDonations(validDonations),
         });
-
-      fetch('http://localhost:3001/payments')
-        .then(function (resp) {
-          return resp.json();
-        })
-        .then(function (data) {
-          self.props.dispatch({
-            type: 'UPDATE_TOTAL_DONATE',
-            amount: summaryDonations(data.map((item) => item.amount)),
-          });
-        });
-    }
-
-    render() {
-      const self = this;
-      const cards = this.state.charities.map(function (item, i) {
-        const payments = [10, 20, 50, 100, 500].map((amount, j) => (
-          <label key={j}>
-            <input
-              type="radio"
-              name="payment"
-              onClick={function () {
-                self.setState({ selectedAmount: amount });
-              }}
-            />
-            {amount}
-          </label>
-        ));
-
-        return (
-          <Card key={i}>
-            <p>{item.name}</p>
-            {payments}
-            <button
-              onClick={handlePay.call(
-                self,
-                item.id,
-                self.state.selectedAmount,
-                item.currency
-              )}
-            >
-              Pay
-            </button>
-          </Card>
-        );
       });
+  }
 
-      const style = {
-        color: 'red',
-        margin: '1em 0',
-        fontWeight: 'bold',
-        fontSize: '16px',
-        textAlign: 'center',
-      };
-
-      const donate = this.props.donate;
-      const message = this.props.message;
-
-      return (
-        <div>
-          <h1>Tamboon React</h1>
-          <p>All donations: {donate}</p>
-          <p style={style}>{message}</p>
-          {cards}
-        </div>
-      );
+  handleDonate = (charitiesId, amount) => {
+    if (amount) {
+      this.makePayment(charitiesId, amount);
+    } else {
+      console.error('No amount selected');
     }
   }
-);
 
-/**
- * Handle pay button
- * 
- * @param {*} The charities Id
- * @param {*} amount The amount was selected
- * @param {*} currency The currency
- * 
- * @example
- * fetch('http://localhost:3001/payments', {
+  makePayment = (charitiesId, amount) => {
+    const self = this;
+    fetch('http://localhost:3001/payments', {
       method: 'POST',
-      body: `{ "charitiesId": ${id}, "amount": ${amount}, "currency": "${currency}" }`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        charitiesId,
+        amount,
+        currency: 'THB',
+      }),
     })
- */
-function handlePay(id, amount, currency) {}
+      .then(response => response.json())
+      .then(data => {
+        self.props.dispatch({
+          type: 'UPDATE_TOTAL_DONATE',
+          amount: parseFloat(data.amount),
+        });
+        self.props.dispatch({
+          type: 'UPDATE_MESSAGE',
+          message: 'Thank you for your donation!',
+        });
+        setTimeout(() => {
+          self.props.dispatch({
+            type: 'UPDATE_MESSAGE',
+            message: '',
+          });
+        }, 3000);
+      })
+      .catch(error => {
+        console.error('Error making payment:', error);
+        self.props.dispatch({
+          type: 'UPDATE_MESSAGE',
+          message: 'Error making payment. Please try again.',
+        });
+      });
+  }
+
+  handleDonationWindowToggle = (charityId) => {
+    this.setState(prevState => ({
+      selectedCharity: charityId,
+      isDonationWindowOpen: !prevState.isDonationWindowOpen,
+    }));
+  };
+
+  render() {
+    const { donate, message } = this.props;
+
+    const style = {
+      color: '#3f61ed',
+      margin: '1em 0',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      textAlign: 'center',
+    };
+
+    return (
+      <div>
+        <div className="header">
+          <h1>Omise Tamboon React</h1>
+          <p>All donations: {donate}</p>
+        </div>
+        <p style={style}>{message}</p>
+        <CardGrid
+          charities={this.state.charities}
+          handleDonate={this.handleDonate}
+          isDonationWindowOpen={this.state.isDonationWindowOpen}
+          selectedCharity={this.state.selectedCharity}
+          handleDonationWindowToggle={this.handleDonationWindowToggle}
+        />
+      </div>
+    );
+  }
+}
+
+export default connect(state => state)(App);

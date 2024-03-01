@@ -1,0 +1,97 @@
+:root {
+    --main-bg-color: #fff;
+    --accent-color: #3f61ed;
+    --text-color: #6b7186;
+    --overlay-bg-color: rgba(255, 255, 255, 0.9);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding: 20px;
+}
+
+.card {
+    background-color: var(--main-bg-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button-container-popup {
+    background-color: var(--overlay-bg-color);
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-container-popup button {
+    margin-top: 10px;
+}
+
+.close-button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: unset;
+    color: var(--text-color);
+}
+
+.card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+button {
+    align-self: flex-end;
+    background-color: var(--main-bg-color);
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer
+}
+
+button:hover {
+    background-color: var(--accent-color);
+    color: #fff;
+}
+
+.button-pay,
+.button-radio,
+h3,
+p {
+    text-align: center;
+    color: var(--text-color);
+    margin: 0;
+    padding: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
