@@ -1,63 +1,39 @@
-# Opn Code Challenges
+# Omise Tamboon React Challenge
 
-This repository houses the code challenges for Opn. These are small hands-on
-projects that are very relevant to the tasks you will be working on here.
+Welcome to Omise Tamboon React Challenge! This project is a charity donation application, and the goal is to complete the given tasks and make the application functional and well-designed.
 
-### Ground Rules
+## Tasks Completed
 
-* We prefer well-thought-out solutions over the quick-and-dirty kind. So take
-  your time, if you need it.
-* Average completion time so far has been around one to two weeks.
-* Submission is done via a
-  [git format-patch](https://git-scm.com/docs/git-format-patch). Send your patch
-  to the hiring team.
+- **Display Donation Amounts:** Implemented the display of all donation amounts on the UI.
+- **Display Thank You Message:** A message is displayed when a donation is successfully made.
+- **Make Donation Feature:** Implemented the donation feature, ensuring it works correctly.
+- **Persist Donations:** Donations are persisted in the database (`db.json`) even when users close and revisit the application.
+- **Refactor Code:** Refactored the code for improved readability and reusability.
+- **Styling with CSS:** Used CSS for styling, and improved the design for better UI/UX.
+- **Responsive Design:** Ensured the application displays well on various screen sizes.
 
-### What to expect
+## Getting Started
 
-We do understand that our code challenges are time intensive and not always easy
-to execute. We do recognize and value the time and effort applicants put into
-their submission. Our Code Challenges reflect some of the tasks and skills you'd
-need while working with us. We believe that these *take-home* challenges will
-give you a deeper understanding of our product, what you'd be working on in the
-future and what level of commitment we look for in applicants.
+To run this application locally, follow these steps:
 
-### What we look for
+1. Clone this repository.
+2. Install dependencies using `npm install`.
+3. Start the application with `npm start`.
+4. Open your browser and navigate to `http://localhost:3000`.
 
-Rather than a complex solution, which added a million features and is written in
-10,000 lines of code, we look for:
+## Usage
 
-* **Clarity:** You can write clear code that any devs could read and understand
-  in one go.
-* **Simplicity:** You can write gimmick-free and straightforward code with no
-  ambiguities.
-* **Defensiveness:** You can cover edge cases and treat user inputs with care.
+- Browse through the list of charities.
+- Click on the "Donate" button to make a donation.
+- Select the amount and confirm the payment.
 
-### What happens after your submission
+## Additional Improvements
 
-Once you have submitted your solution by sending us the **git-format-patch**,
-our Engineers will review the code. Due to the number of submissions we receive,
-and time-intensive review process, it might take us **1 week** to give you
-feedback on the submission. Based on the feedback, we will invite you for a
-meeting to talk more about your submission and continue the recruitment process.
+- Reorganized the codebase for better maintainability.
+- Created new modules, methods, and components to enhance the structure.
+- Added `isomorphic-fetch` for handling HTTP requests.
 
-### Challenges
+## Constraints
 
-Pick the one that most suites the position you wish to apply.
-
-**Opn**
-
-* Backend / Go - [go-challenge](https://github.com/opn-ooo/challenges/tree/master/challenge-go)
-* Backend / Elixir - [elixir-challenge](https://github.com/opn-ooo/challenges/tree/master/challenge-elixir)
-* Backend / Phoenix / Elixir - [phoenix-challenge](https://github.com/opn-ooo/challenges/tree/master/challenge-phoenix)
-* Devops / Kubernetes [challenge-devops](https://github.com/opn-ooo/challenges/tree/master/challenge-devops)
-* Frontend / React - [tamboon-react](https://github.com/opn-ooo/challenges/tree/master/challenge-react)
-* Mobile App / iOS and Android - [challenge-mobile](https://github.com/opn-ooo/challenges/tree/master/challenge-mobile)
-* Design / UX - [design-challenge](https://github.com/opn-ooo/challenges/blob/master/design-challenge.pdf)
-
-### Have fun and we look forward to your submission!
-
-
-<h2>
-ᕙ(⇀‸↼‶)ᕗ
-</h2>
-
+- The existing behaviors were not changed.
+- The API server, language (JavaScript/TypeScript), and core functionalities remained unchanged.
