@@ -19,7 +19,8 @@ To run this application locally, follow these steps:
 1. Clone this repository.
 2. Install dependencies using `npm install`.
 3. Start the application with `npm start`.
-4. Open your browser and navigate to `http://localhost:3000`.
+4. Open new terminal and using `json-server --watch challenge-react/db.json --port 3001`
+5. Open your browser and navigate to `http://localhost:3000`.
 
 ## Usage
 
